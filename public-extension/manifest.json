@@ -1,0 +1,13 @@
+{
+    "manifest_version": 2,
+    "name": "Placeholder app name",
+    "short_name": "Placeholder",
+    "version": "1.0",
+    "description": "A plain text description",
+    "author": "Jari Zwarts & Jeff Reiner",
+    "chrome_url_overrides": {
+        "newtab": "index.html"
+    },
+    "incognito": "split",
+    "content_security_policy": "script-src 'self' http://localhost:3000/; object-src 'self'"
+}
