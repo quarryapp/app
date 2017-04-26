@@ -44,7 +44,11 @@
     "webpack": "1.14.0",
     "webpack-dev-server": "1.16.2",
     "webpack-manifest-plugin": "1.1.0",
-    "whatwg-fetch": "2.0.2"
+    "whatwg-fetch": "2.0.2",
+      "ansi-html": "latest",
+    "sockjs-client": "latest",
+    "strip-ansi": "latest",
+    "html-entities": "latest"
   },
   "scripts": {
     "start": "node scripts/start.js",
