@@ -1,3 +1,5 @@
+/* eslint no-console: 0 */
+
 // require modules
 var fs = require('fs');
 var archiver = require('archiver');
