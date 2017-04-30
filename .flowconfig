@@ -1,0 +1,4 @@
+[ignore]
+
+[options]
+esproposal.decorators=ignore
