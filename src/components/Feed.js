@@ -5,12 +5,14 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import type { FeedState } from '../redux/feed';
 import { getFeed } from '../redux/feed';
+import Card from './Card';
+import type { ICard } from '../entities/index';
 
 const FeedContainer = styled.div`
-display: grid;
-grid-auto-flow: dense;
-grid-template-columns: 1fr 1fr 1fr 1fr;
-grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    display: grid;
+    grid-auto-flow: dense;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
 `;
 
 type FeedProps = {
@@ -27,21 +29,15 @@ type FeedProps = {
 )
 class Feed extends Component {
     props: FeedProps;
-    
+
     componentDidMount() {
-        setTimeout(() => {
-            this.props.getFeed(this.props.token);
-        });
+        this.props.getFeed(this.props.token);
     }
 
     render() {
         return (
             <FeedContainer>
-                {!this.props.feed.error && !this.props.feed.isLoading && this.props.feed.items.docs.map(doc => 
-                    <div>
-                        <h1>{doc.title} ({doc.type})</h1>
-                    </div>
-                )}
+                {this.props.feed.items.docs.map((doc: ICard, index: number) => <Card key={index} card={doc}/>)}
             </FeedContainer>
         );
     }

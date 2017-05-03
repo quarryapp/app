@@ -1,6 +1,6 @@
 // only the parts we need are typed...
 
-export type ChromeAPI = {
+export type IChromeAPI = {
     runtime: {
         lastError: Error
     },
@@ -14,4 +14,13 @@ export type ChromeAPI = {
     
     // type this if we ever use it's contents... for now only used to check if we're an extension.
     extension: any 
+}
+
+export type ICard = {
+    type: string,
+    size: 'small' | 'medium' | 'large',
+    score: number,
+    timestamp: number, // publication date
+    title: string, // title
+    data: any // element specific data (will be passed as props to element)
 }

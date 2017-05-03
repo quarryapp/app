@@ -5,6 +5,8 @@
 
 body {
     background:#fafbfc;
+    /* todo: package roboto files into project */
+    font-family: Roboto, sans-serif !important;
 }
 
 html {

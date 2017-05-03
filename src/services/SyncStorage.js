@@ -1,9 +1,9 @@
 /* eslint no-console: 0 */
 // @flow
 
-import { ChromeAPI } from '../entities';
+import { IChromeAPI } from '../entities';
 
-declare var chrome: ChromeAPI;
+declare var chrome: IChromeAPI;
 
 const promisify = (func: Function) => {
     return (...args) => {

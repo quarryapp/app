@@ -12,7 +12,9 @@ flex-direction:row;
 align-items:center;
 
 h1 {
-    font-family: 'Space Mono', monospace;
+    color: rgba(0, 0, 0, 0.87);
+    letter-spacing: 3.2px;
+    font-family: "Space Mono", monospace;
     font-weight:bold;
     text-align:center;
     flex-grow:1;

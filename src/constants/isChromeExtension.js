@@ -1,6 +1,6 @@
 // @flow
-import { ChromeAPI } from '../entities';
+import { IChromeAPI } from '../entities';
 
-declare var chrome: ChromeAPI;
+declare var chrome: IChromeAPI;
 
 export default ('extension' in chrome); 
