@@ -8,6 +8,8 @@ import { getFeed } from '../redux/feed';
 import Card from './Card';
 import { spring, TransitionMotion } from 'react-motion';
 
+const INFINITE_SCROLL_OFFSET = 100;
+
 const FeedContainer = styled.div`
     display: grid;
     grid-auto-flow: dense;
@@ -29,9 +31,30 @@ type FeedProps = {
 )
 class Feed extends Component {
     props: FeedProps;
+    feedContainerBounds: ClientRect;
+    feedContainer: HTMLElement;
 
     componentDidMount() {
         this.props.getFeed(this.props.token);
+        window.addEventListener('scroll', this.onScroll);
+        window.addEventListener('resize', this.onResize);
+    }
+    
+    componentWillUnmount() {
+        window.removeEventListener('scroll', this.onScroll);
+        window.removeEventListener('resize', this.onResize);
+    }
+    
+    onResize = () => {
+        if(this.feedContainerBounds) {
+            this.feedContainerBounds = this.feedContainer.getBoundingClientRect();
+        }
+    }
+    
+    onScroll = () => {
+        if((window.scrollY + window.innerHeight) > (this.feedContainerBounds.bottom - INFINITE_SCROLL_OFFSET) && !this.props.feed.isLoading) {
+            this.props.getFeed(this.props.token, this.props.feed.items.page + 1);
+        }
     }
 
     render() {
@@ -57,13 +80,20 @@ class Feed extends Component {
                 opacity: 0
             })}>
                 {styles => (
-                    <FeedContainer>
-                        {styles.map((config) => {
-                            return (
-                                <Card key={config.key} card={config.data.doc} style={{opacity: config.style.opacity, transform: `translateY(${config.style.translateY}px)`}}/>
+                    <div ref={(feedContainer: HTMLElement) => {
+                        this.feedContainer = feedContainer;
+                        if(feedContainer) {
+                            this.feedContainerBounds = feedContainer.getBoundingClientRect();
+                        }
+                    }}>
+                        <FeedContainer>
+                            {styles.map((config) => {
+                                return (
+                                    <Card key={config.key} card={config.data.doc} style={{opacity: config.style.opacity, transform: `translateY(${config.style.translateY}px)`}}/>
+                                )}
                             )}
-                        )}
-                    </FeedContainer>
+                        </FeedContainer>
+                    </div>
                 )}
             </TransitionMotion>
         );

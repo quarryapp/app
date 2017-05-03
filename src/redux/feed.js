@@ -41,12 +41,19 @@ export const reducer = (state: FeedState = defaultState, action: Object) => {
                 ...state,
                 isLoading: true
             };
-        case FEED_SUCCESS:
+        case FEED_SUCCESS: {
+            // backend returns a string for some reason...
+            const page = parseInt(action.payload.page);
             return {
                 ...state,
-                items: action.payload,
+                items: {
+                    ...action.payload,
+                    docs: page === 1 ? action.payload.docs : [...state.items.docs, ...action.payload.docs],
+                    page
+                },
                 isLoading: false
             };
+        }
         case FEED_FAILURE:
             return {
                 ...state,
