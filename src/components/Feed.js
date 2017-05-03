@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import type { FeedState } from '../redux/feed';
 import { getFeed } from '../redux/feed';
 import Card from './Card';
-import type { ICard } from '../entities/index';
+import { spring, TransitionMotion } from 'react-motion';
 
 const FeedContainer = styled.div`
     display: grid;
@@ -35,10 +35,37 @@ class Feed extends Component {
     }
 
     render() {
+        const { docs } = this.props.feed.items;
         return (
-            <FeedContainer>
-                {this.props.feed.items.docs.map((doc: ICard, index: number) => <Card key={index} card={doc}/>)}
-            </FeedContainer>
+            <TransitionMotion
+                styles={docs.map(doc => ({
+                    key: doc._id,
+                    style: {
+                        translateY: spring(0),
+                        opacity: spring(1)
+                    },
+                    data: {
+                        doc
+                    }
+                }))}
+            willLeave={() => ({
+                translateY: spring(180),
+                opacity: spring(0)
+            })}
+            willEnter={() => ({
+                translateY: 180,
+                opacity: 0
+            })}>
+                {styles => (
+                    <FeedContainer>
+                        {styles.map((config) => {
+                            return (
+                                <Card key={config.key} card={config.data.doc} style={{opacity: config.style.opacity, transform: `translateY(${config.style.translateY}px)`}}/>
+                            )}
+                        )}
+                    </FeedContainer>
+                )}
+            </TransitionMotion>
         );
     }
 }

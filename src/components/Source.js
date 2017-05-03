@@ -27,12 +27,12 @@ type SourceProps = {
     logoElement?: ?Element<*>
 };
 
-const Source = (props: SourceProps) => {
-    const SourceContainer = styled.div`
+
+const SourceContainer = styled.div`
         width: 100%;
         backdrop-filter: blur(5px);
         height: 4rem;
-        background-color:${props.color};
+        background-color:${props => props.color};
         
         > span {
             color: white;
@@ -45,8 +45,10 @@ const Source = (props: SourceProps) => {
             text-overflow: ellipsis;
         }
     `;
+
+const Source = (props: SourceProps) => {
     return (
-        <SourceContainer>
+        <SourceContainer color={props.color}>
             {props.logoElement}
             <span>{props.description}</span>
         </SourceContainer>

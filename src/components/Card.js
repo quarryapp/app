@@ -37,22 +37,23 @@ const SizeMap = {
     `
 };
 
+const CardContainer = styled.div`
+    position: relative;
+    ${props => SizeMap[props.size]}
+    grid-column-start: ${props => ColumnStartMap[props.size]};
+    grid-row-start: ${props => RowStartMap[props.size]};
+`;
 
 type CardProps = {
-    card: ICard
+    card: ICard,
+    style?: any
 };
 
 const Card = (props: CardProps) => {
-    const CardContainer = styled.div`
-        position: relative;
-        ${SizeMap[props.card.size]}
-		grid-column-start: ${ColumnStartMap[props.card.size]};        
-		grid-row-start: ${RowStartMap[props.card.size]};
-    `;
     const CardContent = getCardContentByType(props.card.type);
     
     return (
-        <CardContainer>
+        <CardContainer size={props.card.size} style={props.style}>
             <CardContent card={props.card}/>
         </CardContainer>
     );

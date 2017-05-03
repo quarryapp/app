@@ -14,7 +14,9 @@ export type FeedState = {
 const defaultState: FeedState = {
     error: null,
     isLoading: false,
-    items: []
+    items: {
+        docs: []
+    }
 };
 
 // actions
