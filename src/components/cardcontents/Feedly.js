@@ -45,34 +45,39 @@ const FeedlyText = styled.div`
         font-size:1.8rem;
         font-weight:bold;
         -webkit-line-clamp: 2;
+        margin-bottom:.5em;
     }
     
     p {
+        margin-top:.5em;
         font-size:1.4rem;
         -webkit-line-clamp: 3;
+        line-height: 1.6rem;
     }
     
     p, h1 {
-        margin-top:.5em;
-        margin-bottom:.5em;
         overflow:hidden;
         -webkit-box-orient: vertical;
         display: -webkit-box;
-        line-height: 1.6rem;
+        line-height: 2rem;
     }
 `;
 
-const Feedly = (props: FeedlyProps) => (
-    <FeedlyContainer>
-        <ProgressiveImage src={props.card.data.visual.url} placeholder={'edgeCacheUrl' in props.card.data.visual ? props.card.data.visual.edgeCacheUrl : null}/>
-        <FeedlyHolder>
-            <FeedlyText>
-                <h1>{props.card.title}</h1>
-                <p>{striptags(props.card.data.summary.content)}</p>
-            </FeedlyText>
-            <Source description={`#${props.card.ranking} story on ${props.card.name}`}/>
-        </FeedlyHolder>
-    </FeedlyContainer>
-);
+const Feedly = (props: FeedlyProps) => {
+    return (
+        <FeedlyContainer>
+            <ProgressiveImage src={props.card.data.visual.url}
+                              placeholder={'edgeCacheUrl' in props.card.data.visual ? props.card.data.visual.edgeCacheUrl : null}
+                              fallbackSeed={props.card._id}/>
+            <FeedlyHolder>
+                <FeedlyText>
+                    <h1>{props.card.title}</h1>
+                    <p>{striptags(props.card.data.summary.content)}</p>
+                </FeedlyText>
+                <Source description={`#${props.card.ranking} story on ${props.card.name}`}/>
+            </FeedlyHolder>
+        </FeedlyContainer>
+    );
+}
 
 export default Feedly;

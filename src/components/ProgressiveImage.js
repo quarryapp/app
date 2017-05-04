@@ -6,6 +6,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
+import GeoPattern from 'geopattern';
 
 const ImageContainer = styled.div`
     transition: opacity .5s, transform .5s;
@@ -29,13 +30,20 @@ const ImageContainer = styled.div`
 `;
 
 type ProgressiveImageProps = {
+    // source uri
     src: string,
+    // optional source uri to use when on retina
     srcRetina?: string,
+    // placeholder source uri
     placeholder: string,
+    // blur amount
     blur?: number,
-    fallback?: React.Element<*>,
+    // does ProgressiveImage need to use background-image or can it use an img tag instead?
     background?: boolean,
-    style?: any
+    // optional styles
+    style?: any,
+    // a unique id to generate a fallback image from when loading fails
+    fallbackSeed: string
 };
 
 export default class ProgressiveImage extends React.Component {
@@ -107,7 +115,7 @@ export default class ProgressiveImage extends React.Component {
     }
 
     render() {
-        const { src, srcRetina, placeholder, blur, background, fallback } = this.props;
+        const { src, srcRetina, placeholder, blur, background, fallbackSeed } = this.props;
         let backgroundImage = 'none';
 
         if (background) {
@@ -116,7 +124,7 @@ export default class ProgressiveImage extends React.Component {
                 backgroundImage = `url(${srcRetina || src})`;
             }
         }
-
+        
         return (
             <div style={this.props.style}>
                 { src && placeholder && !this.state.errorInLoading && (
@@ -134,10 +142,8 @@ export default class ProgressiveImage extends React.Component {
                         </ImageContainer>
                     </div>
                 )}
-                { fallback && (!src || !placeholder || this.state.errorInLoading) && (
-                    <ImageContainer active={true}>
-                        { fallback }
-                    </ImageContainer>
+                { (!src || !placeholder || this.state.errorInLoading) && (
+                    <ImageContainer active={true} backgroundImage={GeoPattern.generate(fallbackSeed).toDataUrl()}/>
                 )}
             </div>
         );

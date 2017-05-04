@@ -4,6 +4,7 @@
     "private": true,
     "dependencies": {
         "es6-promisify": "^5.0.0",
+        "geopattern": "^1.2.3",
         "localforage": "^1.5.0",
         "react": "^15.5.4",
         "react-dom": "^15.5.4",
