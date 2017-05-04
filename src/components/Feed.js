@@ -90,7 +90,7 @@ class Feed extends Component {
                             {styles.map((config) => {
                                 return (
                                     <Card key={config.key} card={config.data.doc} style={{opacity: config.style.opacity, transform: `translateY(${config.style.translateY}px)`}}/>
-                                )}
+                                );}
                             )}
                         </FeedContainer>
                     </div>
