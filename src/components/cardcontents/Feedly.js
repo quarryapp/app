@@ -78,6 +78,6 @@ const Feedly = (props: FeedlyProps) => {
             </FeedlyHolder>
         </FeedlyContainer>
     );
-}
+};
 
 export default Feedly;
