@@ -20,6 +20,8 @@ export type ICard = {
     type: string,
     size: 'small' | 'medium' | 'large',
     score: number,
+    ranking: number,
+    url: string,
     timestamp: number, // publication date
     title: string, // title
     data: any // element specific data (will be passed as props to element)

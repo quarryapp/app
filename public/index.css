@@ -5,8 +5,7 @@
 
 body {
     background:#fafbfc;
-    /* todo: package roboto files into project */
-    font-family: Roboto, sans-serif !important;
+    font-family: Cabin, sans-serif !important;
 }
 
 html {
@@ -15,6 +14,10 @@ html {
 
 * {
     box-sizing:border-box;
+}
+
+a {
+    text-decoration: none;
 }
 
 /* http://meyerweb.com/eric/tools/css/reset/ 

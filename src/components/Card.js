@@ -39,6 +39,7 @@ const SizeMap = {
 
 const CardContainer = styled.div`
     position: relative;
+    overflow:hidden;
     ${props => SizeMap[props.size]}
     grid-column-start: ${props => ColumnStartMap[props.size]};
     grid-row-start: ${props => RowStartMap[props.size]};
@@ -54,7 +55,9 @@ const Card = (props: CardProps) => {
     
     return (
         <CardContainer size={props.card.size} style={props.style}>
-            <CardContent card={props.card}/>
+            <a href={props.card.url} target="_blank">
+                <CardContent card={props.card}/>
+            </a>
         </CardContainer>
     );
 };

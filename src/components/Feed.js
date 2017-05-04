@@ -7,6 +7,7 @@ import type { FeedState } from '../redux/feed';
 import { getFeed } from '../redux/feed';
 import Card from './Card';
 import { spring, TransitionMotion } from 'react-motion';
+import type { ICard } from '../entities';
 
 const INFINITE_SCROLL_OFFSET = 100;
 
@@ -61,8 +62,8 @@ class Feed extends Component {
         const { docs } = this.props.feed.items;
         return (
             <TransitionMotion
-                styles={docs.map(doc => ({
-                    key: doc._id,
+                styles={docs.map((doc: ICard, index: number) => ({
+                    key: index,
                     style: {
                         translateY: spring(0),
                         opacity: spring(1)
@@ -71,10 +72,6 @@ class Feed extends Component {
                         doc
                     }
                 }))}
-            willLeave={() => ({
-                translateY: spring(180),
-                opacity: spring(0)
-            })}
             willEnter={() => ({
                 translateY: 180,
                 opacity: 0
@@ -87,10 +84,11 @@ class Feed extends Component {
                         }
                     }}>
                         <FeedContainer>
-                            {styles.map((config) => {
-                                return (
-                                    <Card key={config.key} card={config.data.doc} style={{opacity: config.style.opacity, transform: `translateY(${config.style.translateY}px)`}}/>
-                                );}
+                            {styles.map((config) =>
+                                <Card key={config.key} card={config.data.doc} style={{
+                                    opacity: config.style.opacity,
+                                    transform: `translateY(${config.style.translateY}px)`
+                                }}/>
                             )}
                         </FeedContainer>
                     </div>
