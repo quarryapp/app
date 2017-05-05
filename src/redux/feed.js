@@ -3,19 +3,30 @@
 import { CALL_API, ApiError } from 'redux-api-middleware';
 import { feedUrl } from '../constants/apiUrls';
 import { REHYDRATE } from 'redux-persist/constants';
+import { ICard } from '../entities/index';
 // state def
 
 export type FeedState = {
     error: ?ApiError,
     isLoading: boolean,
-    items: any // todo FeedItem type?
+    items: {
+        docs: ICard[],
+        page: number,
+        pages: number,
+        total: number,
+        limit: number
+    }
 };
 
 const defaultState: FeedState = {
     error: null,
     isLoading: false,
     items: {
-        docs: []
+        docs: [],
+        page: 0,
+        pages: 0,
+        total: 0,
+        limit: 0
     }
 };
 

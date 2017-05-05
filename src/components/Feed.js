@@ -16,6 +16,7 @@ const FeedContainer = styled.div`
     grid-auto-flow: dense;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+    margin:.5rem;
 `;
 
 type FeedProps = {
@@ -53,7 +54,9 @@ class Feed extends Component {
     }
     
     onScroll = () => {
-        if((window.scrollY + window.innerHeight) > (this.feedContainerBounds.bottom - INFINITE_SCROLL_OFFSET) && !this.props.feed.isLoading) {
+        if ((window.scrollY + window.innerHeight) > (this.feedContainerBounds.bottom - INFINITE_SCROLL_OFFSET) 
+            && this.props.feed.items.pages >= this.props.feed.items.page 
+            && !this.props.feed.isLoading) {
             this.props.getFeed(this.props.token, this.props.feed.items.page + 1);
         }
     }
