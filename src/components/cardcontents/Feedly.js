@@ -1,14 +1,14 @@
 // @flow
 
 import React from 'react';
-import type { ICard } from '../../entities/index';
 import Source from '../Source';
 import styled from 'styled-components';
-import striptags from 'striptags';
 import ProgressiveImage from '../ProgressiveImage';
+import type { IFeedlyCard } from '../../entities/providers';
+import cleanHTML from '../../services/cleanHTML';
 
 type FeedlyProps = {
-    card: ICard
+    card: IFeedlyCard
 };
 
 const FeedlyContainer = styled.div`
@@ -42,24 +42,24 @@ const FeedlyText = styled.div`
     color: white;
     
     h1 {
-        font-size:1.8rem;
+        font-size:${props => props.size === 'small' ? '1.8' : '2'}rem;
         font-weight:bold;
         -webkit-line-clamp: 2;
         margin-bottom:.5em;
+        line-height: ${props => props.size === 'small' ? '2' : '2.2'}rem;
     }
     
     p {
         margin-top:.5em;
-        font-size:1.4rem;
+        font-size:${props => props.size === 'small' ? '1.4' : '1.6'}rem;
         -webkit-line-clamp: 3;
-        line-height: 1.6rem;
+        line-height: ${props => props.size === 'small' ? '1.6' : '1.8'}rem;
     }
     
     p, h1 {
         overflow:hidden;
         -webkit-box-orient: vertical;
         display: -webkit-box;
-        line-height: 2rem;
     }
 `;
 
@@ -70,11 +70,11 @@ const Feedly = (props: FeedlyProps) => {
                               placeholder={'edgeCacheUrl' in props.card.data.visual ? props.card.data.visual.edgeCacheUrl : null}
                               fallbackSeed={props.card._id}/>
             <FeedlyHolder>
-                <FeedlyText>
+                <FeedlyText size={props.card.size}>
                     <h1>{props.card.title}</h1>
-                    <p>{striptags(props.card.data.summary.content)}</p>
+                    <p>{cleanHTML(props.card.data.summary.content)}</p>
                 </FeedlyText>
-                <Source description={`#${props.card.ranking} story on ${props.card.name}`}/>
+                <Source description={`Story on ${props.card.name}`}/>
             </FeedlyHolder>
         </FeedlyContainer>
     );

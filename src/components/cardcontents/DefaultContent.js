@@ -36,19 +36,34 @@ const DefaultContentText = styled.div`
     padding:16px;
     flex-grow:1;
     position:relative;
-    z-index:4;
     color: white;
     
     h1 {
-        font-size:1.8rem;
+        font-size:${props => props.size === 'small' ? '1.8' : '2'}rem;
         font-weight:bold;
+        -webkit-line-clamp: 2;
+        margin-bottom:.5em;
+        line-height: ${props => props.size === 'small' ? '2' : '2.2'}rem;
+    }
+    
+    p {
+        margin-top:.5em;
+        font-size:${props => props.size === 'small' ? '1.4' : '1.6'}rem;
+        -webkit-line-clamp: 3;
+        line-height: ${props => props.size === 'small' ? '1.6' : '1.8'}rem;
+    }
+    
+    p, h1 {
+        overflow:hidden;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
     }
 `;
 
 const DefaultContent = (props: DefaultContentProps) => (
     <DefaultContentContainer>
         <DefaultContentHolder>
-            <DefaultContentText>
+            <DefaultContentText size={props.card.size}>
                 <h1>{props.card.title}</h1>
                 {/*<p>Card description</p>*/}
             </DefaultContentText>

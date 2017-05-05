@@ -4,12 +4,11 @@ import React from 'react';
 import type { Element } from 'react';
 import styled from 'styled-components';
 
-const DefaultLogo = styled.div`
+const DefaultLogo = styled.span`
     display: inline-block;
     background-color: rgba(0, 0, 0, 0.38);
     height: 24px;
     width: 24px;
-    margin: 8px;
 `;
 
 const DefaultLogoInner = styled.span`
@@ -27,33 +26,40 @@ type SourceProps = {
     logoElement?: ?Element<*>
 };
 
-
 const SourceContainer = styled.div`
-        width: 100%;
-        backdrop-filter: blur(5px);
-        height: 4rem;
-        background-color:${props => props.color};
-        
-        > span {
-            color: white;
-            height: 4rem;
-            font-size: 16px;
-            line-height: 4rem;
-            position: absolute;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-    `;
+    width: 100%;
+    height: 4rem;
+    background-color:${props => props.color};
+    display: flex;
+`;
 
-const Source = (props: SourceProps) => {
-    return (
-        <SourceContainer color={props.color}>
+const SourceText = styled.span`
+    color: white;
+    height: 4rem;
+    font-size: 1.6rem;
+    line-height: 4rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex-grow: 1;
+    margin-right: 1.6rem;
+`;
+
+const SourceIcon = styled.span`
+    display: inline-block;
+    margin: 0.8rem;
+    display: flex;
+    align-items: center;
+`;
+
+const Source = (props: SourceProps) => (
+    <SourceContainer color={props.color}>
+        <SourceIcon>
             {props.logoElement}
-            <span>{props.description}</span>
-        </SourceContainer>
-    );
-};
+        </SourceIcon>
+        <SourceText>{props.description}</SourceText>
+    </SourceContainer>
+);
 
 Source.defaultProps = {
     logoElement: (

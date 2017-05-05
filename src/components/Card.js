@@ -43,6 +43,7 @@ const CardContainer = styled.div`
     ${props => SizeMap[props.size]}
     grid-column-start: ${props => ColumnStartMap[props.size]};
     grid-row-start: ${props => RowStartMap[props.size]};
+    margin:.5rem;
 `;
 
 type CardProps = {
