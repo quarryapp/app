@@ -40,16 +40,20 @@ const FeedlyText = styled.div`
     flex-grow:1;
     position:relative;
     color: white;
+    text-align: ${props => props.direction === 'rtl' ? 'right' : 'left'};
+    direction: ${props => props.direction};
     
     h1 {
         font-size:${props => props.size === 'small' ? '1.8' : '2'}rem;
         font-weight:bold;
-        -webkit-line-clamp: 2;
+        -webkit-line-clamp: ${props => props.hasContent ? 2 : 5};
         margin-bottom:.5em;
         line-height: ${props => props.size === 'small' ? '2' : '2.2'}rem;
     }
     
     p {
+        text-align: ${props => props.contentDirection === 'rtl' ? 'right' : 'left'};
+        direction: ${props => props.contentDirection};
         margin-top:.5em;
         font-size:${props => props.size === 'small' ? '1.4' : '1.6'}rem;
         -webkit-line-clamp: 3;
@@ -64,15 +68,20 @@ const FeedlyText = styled.div`
 `;
 
 const Feedly = (props: FeedlyProps) => {
+    const hasContent = 'content' in props.card.data;
     return (
         <FeedlyContainer>
             <ProgressiveImage src={props.card.data.visual.url}
                               placeholder={'edgeCacheUrl' in props.card.data.visual ? props.card.data.visual.edgeCacheUrl : null}
                               fallbackSeed={props.card._id}/>
             <FeedlyHolder>
-                <FeedlyText size={props.card.size}>
-                    <h1>{props.card.title}</h1>
-                    <p>{cleanHTML(props.card.data.summary.content)}</p>
+                <FeedlyText size={props.card.size} hasContent={hasContent}
+                            contentDirection={hasContent ? props.card.data.content.direction : 'ltr'}
+                            direction={props.card.data.direction}>
+                    <h1>{cleanHTML(props.card.title)}</h1>
+                    {hasContent && (
+                        <p>{cleanHTML(props.card.data.content.content)}</p>
+                    )}
                 </FeedlyText>
                 <Source description={`Story on ${props.card.name}`}/>
             </FeedlyHolder>

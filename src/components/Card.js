@@ -10,7 +10,7 @@ const RowHeight = 25;
 const ColumnStartMap = {
     'small': 'span 1',
     'medium': 'span 2',
-    'large': 'span 3'
+    'large': 'span 2'
 };
 
 const RowStartMap = {
@@ -32,8 +32,8 @@ const SizeMap = {
     `,
     'large': `
         height: ${RowHeight * 2}vh;
-        min-width:60rem;
-        min-height:360px;
+        min-width:40rem;
+        min-height:370px;
     `
 };
 

@@ -88,7 +88,7 @@ const GitHub = (props: GitHubProps) => (
                 </div>
             )}
         </GitHubRepoInfo>
-        <Source logoElement={gitHubLogo} description={`#${props.card.ranking} on GitHub`} color="rgba(0,0,0,.75)"/>
+        <Source logoElement={gitHubLogo} description={`#${props.card.ranking} Trending on GitHub`} color="rgba(0,0,0,.75)"/>
     </GitHubHolder>
 );
 

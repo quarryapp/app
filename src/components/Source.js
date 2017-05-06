@@ -20,10 +20,11 @@ const DefaultLogoInner = styled.span`
     border-radius: 24px;
 `;
 
-type SourceProps = {
+export type SourceProps = {
     description: string,
     color?: string,
-    logoElement?: ?Element<*>
+    logoElement?: ?Element<*>,
+    style?: any
 };
 
 const SourceContainer = styled.div`
@@ -53,7 +54,7 @@ const SourceIcon = styled.span`
 `;
 
 const Source = (props: SourceProps) => (
-    <SourceContainer color={props.color}>
+    <SourceContainer color={props.color} style={props.style}>
         <SourceIcon>
             {props.logoElement}
         </SourceIcon>

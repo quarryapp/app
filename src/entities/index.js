@@ -17,6 +17,7 @@ export type IChromeAPI = {
 }
 
 export type ICard = {
+    _id: string,
     type: string,
     size: 'small' | 'medium' | 'large',
     score: number,
@@ -24,5 +25,4 @@ export type ICard = {
     url: string,
     timestamp: number, // publication date
     title: string, // title
-    data: any // element specific data (will be passed as props to element)
 }

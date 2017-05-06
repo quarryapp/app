@@ -4,7 +4,8 @@ import { ICard } from './';
 
 export type IFeedlyCard = ICard & {
     data: {
-        summary: {
+        direction: string,
+        content: {
             content: string,
             direction: string
         },
@@ -23,6 +24,17 @@ export type IFeedlyCard = ICard & {
 export type IGitHubCard = ICard & {
     data: {
         description: string,
+        language: string
+    }
+}
+
+export type IDribbbleCard = ICard & {
+    data: {
+        images: {
+            hidpi: ?string,
+            normal: string,
+            teaser: string
+        },
         language: string
     }
 }
