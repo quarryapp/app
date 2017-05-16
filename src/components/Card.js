@@ -45,6 +45,7 @@ const CardContainer = styled.div`
     grid-column-start: ${props => ColumnStartMap[props.size]};
     grid-row-start: ${props => RowStartMap[props.size]};
     margin:${GridMargin}rem;
+    background-color:#EEE;
 `;
 
 type CardProps = {

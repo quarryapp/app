@@ -2,15 +2,21 @@
 
 // state def
 
-const defaultState = '';
+export type TokenState = string;
+const defaultState: TokenState = '';
+
+export type Action = TokenStateAction;
 
 // actions
-const SET_TOKEN = 'SET_TOKEN';
+type TokenStateAction = {
+    type: 'TOKEN_STATE',
+    payload: string
+};
 
 // reducer
-export const reducer = (state: string = defaultState, action: Object) => {
+export const reducer = (state: TokenState = defaultState, action: Action) => {
     switch (action.type) {
-        case SET_TOKEN:
+        case 'SET_TOKEN':
             return action.payload;
         default:
             return state;
@@ -19,6 +25,6 @@ export const reducer = (state: string = defaultState, action: Object) => {
 
 // action creators
 export const setToken = (token: string) => ({
-    type: SET_TOKEN,
+    type: 'SET_TOKEN',
     payload: token
 });

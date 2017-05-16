@@ -1,18 +1,26 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import { reducer as feed } from './redux/feed';
-import { reducer as token } from './redux/token';
+import { FeedState, reducer as feed } from './redux/feed';
+import { reducer as token, TokenState } from './redux/token';
 import { apiMiddleware } from 'redux-api-middleware';
 import { autoRehydrate, persistStore } from 'redux-persist';
 import SyncStorage from './services/SyncStorage';
 import localForage from 'localforage';
 import isChromeExtension from './constants/isChromeExtension';
 import logger from 'redux-logger';
+import colors, { ColorsState } from './redux/colors';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+export type RootState = {
+    feed: FeedState,
+    token: TokenState,
+    colors: ColorsState
+};
+
 const reducer = combineReducers({
     feed,
-    token
+    token,
+    colors
 });
 export default (cb) => {
     let middlewares = [apiMiddleware];
