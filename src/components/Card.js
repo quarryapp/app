@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import getCardContentByType from '../services/getCardContentByType';
 
 const RowHeight = 25;
+const GridMargin = 0.5;
 
 const ColumnStartMap = {
     'small': 'span 1',
@@ -31,7 +32,7 @@ const SizeMap = {
         min-height:180px;
     `,
     'large': `
-        height: ${RowHeight * 2}vh;
+        height: calc(${RowHeight * 2}vh + ${GridMargin * 2}rem);
         min-width:40rem;
         min-height:370px;
     `
@@ -43,7 +44,7 @@ const CardContainer = styled.div`
     ${props => SizeMap[props.size]}
     grid-column-start: ${props => ColumnStartMap[props.size]};
     grid-row-start: ${props => RowStartMap[props.size]};
-    margin:.5rem;
+    margin:${GridMargin}rem;
 `;
 
 type CardProps = {

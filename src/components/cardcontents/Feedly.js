@@ -71,8 +71,8 @@ const Feedly = (props: FeedlyProps) => {
     const hasContent = 'content' in props.card.data;
     return (
         <FeedlyContainer>
-            <ProgressiveImage src={props.card.data.visual.url}
-                              placeholder={'edgeCacheUrl' in props.card.data.visual ? props.card.data.visual.edgeCacheUrl : null}
+            <ProgressiveImage src={props.card.data.visual && 'url' in props.card.data.visual ? props.card.data.visual.url : null}
+                              placeholder={props.card.data.visual && 'edgeCacheUrl' in props.card.data.visual ? props.card.data.visual.edgeCacheUrl : null}
                               fallbackSeed={props.card._id}/>
             <FeedlyHolder>
                 <FeedlyText size={props.card.size} hasContent={hasContent}
@@ -83,7 +83,7 @@ const Feedly = (props: FeedlyProps) => {
                         <p>{cleanHTML(props.card.data.content.content)}</p>
                     )}
                 </FeedlyText>
-                <Source description={`Story on ${props.card.name}`}/>
+                <Source description={`#${props.card.ranking} Trending story on ${props.card.name}`}/>
             </FeedlyHolder>
         </FeedlyContainer>
     );
