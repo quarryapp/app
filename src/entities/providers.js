@@ -9,7 +9,7 @@ export type IFeedlyCard = ICard & {
             content: string,
             direction: string
         },
-        visual: {
+        visual?: {
             edgeCacheUrl: string,
             processor: string,
             url: string,
@@ -17,7 +17,9 @@ export type IFeedlyCard = ICard & {
             height: number,
             expirationDate: number,
             contentType: string
-        }
+        },
+        logoUrl?: string,
+        iconUrl?: string
     }
 }
 

@@ -9,6 +9,10 @@ import Vibrant from 'node-vibrant';
 import { connect } from 'react-redux';
 import { RootState } from '../../createStore';
 import { setColor } from '../../redux/colors';
+import removeBackground from '../../services/removeBackground';
+
+// todo move this to localStorage or something
+const processedLogos = {};
 
 type FeedlyProps = {
     card: IFeedlyCard,
@@ -46,11 +50,22 @@ const FeedlyText = styled.div`
     h1 {
         font-size:${props => props.size === 'small' ? 2.2 : 2.8}rem;
         font-weight:bold;
-        -webkit-line-clamp: 5;
-        margin-bottom:.5em;
         line-height: ${props => props.size === 'small' ? 2.4 : 3}rem;
         font-family: Circular, sans-serif;
+        -webkit-box-orient: vertical;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        overflow:hidden;
     }
+`;
+
+const FeedlyLogo = styled.img`
+    max-width:100px;
+    max-height:35px;
+    margin-right: 16px;
+    margin-top: 16px;
+    align-self: flex-end;
+    filter: brightness(10);
 `;
 
 class Feedly extends Component {
@@ -92,6 +107,20 @@ class Feedly extends Component {
                                 color={'#FFF' /* todo */}>
                         <h1>{cleanHTML(this.props.card.title)}</h1>
                     </FeedlyText>
+                    <div style={{flexGrow: 1}}/>
+                    {this.props.card.data.logoUrl && (
+                        <FeedlyLogo crossOrigin="anonymous" src={this.props.card.data.logoUrl} onLoad={(event: Event & { target: HTMLImageElement } ) => {
+                            const { target }: { target: HTMLImageElement } = event;
+                            if(processedLogos[target.src]) {
+                                target.src = processedLogos[target.src];
+                            } else {
+                                const img: HTMLImageElement = event.target;
+                                const url = img.src;
+                                img.src = removeBackground(event.target);
+                                processedLogos[url] = img.src; 
+                            }
+                        }}/>
+                    )}
                 </FeedlyHolder>
             </FeedlyContainer>
         );
