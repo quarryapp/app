@@ -1,6 +1,6 @@
 // @flow
 
-const TOLERANCE = 160;
+const TOLERANCE = 64;
 
 export default (image: HTMLImageElement) => {
     let canvas: HTMLCanvasElement = (document.querySelector('#backgroundProcessor'): any);

@@ -65,7 +65,7 @@ const FeedlyLogo = styled.img`
     margin-right: 16px;
     margin-top: 16px;
     align-self: flex-end;
-    filter: brightness(10);
+    filter: brightness(100000);
 `;
 
 class Feedly extends Component {
