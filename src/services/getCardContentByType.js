@@ -2,7 +2,7 @@ import GitHub from '../components/cardcontents/GitHub';
 import DefaultContent from '../components/cardcontents/DefaultContent';
 import Dribbble from '../components/cardcontents/Dribbble';
 import ProductHunt from '../components/cardcontents/ProductHunt';
-import FeedlyV2 from '../components/cardcontents/FeedlyV2';
+import Feedly from '../components/cardcontents/Feedly';
 
 export default (type: string) => {
     
@@ -14,7 +14,7 @@ export default (type: string) => {
         case 'dribbble':
             return Dribbble;
         case 'feedly':
-            return FeedlyV2;
+            return Feedly;
         default:
             return DefaultContent; 
     }

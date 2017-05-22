@@ -7,7 +7,7 @@ export default (image: HTMLImageElement) => {
     if (!canvas) {
         canvas = document.createElement('canvas');
         canvas.id = 'backgroundProcessor';
-        canvas.style.display = 'none';
+        // canvas.style.display = 'none';
         if(document.body) {
             document.body.appendChild(canvas);
         } else {
@@ -24,7 +24,8 @@ export default (image: HTMLImageElement) => {
     const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
     const { data } = imageData;
     const bgColor = data.slice(0, 4);
-    const fillColor = [0, 0, 0, 0];
+    const bgFillColor = [0, 0, 0, 0];
+    const fgFillColor = [254, 254, 254, 254];
 
     for (let i = 0; i < data.length; i += 4) {
         let currentColor = [data[i], data[i + 1], data[i + 2], data[i + 3]];
@@ -34,12 +35,15 @@ export default (image: HTMLImageElement) => {
             currentColor[index] <= (bgColor[index] + TOLERANCE)
         );
         if (doesntMatchBackground) {
-            continue;
+            for (let index of range) {
+                data[i + index] = fgFillColor[index];
+            }
+        } else {
+            for (let index of range) {
+                data[i + index] = bgFillColor[index];
+            }
         }
         
-        for (let index of range) {
-            data[i + index] = fillColor[index];
-        }
     }
 
     context.clearRect(0, 0, canvas.width, canvas.height);

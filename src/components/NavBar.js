@@ -24,7 +24,7 @@ h1 {
 
 const NavBar = () => (
     <NavBarContainer>
-        <h1>app</h1>
+        <h1>Quarry</h1>
     </NavBarContainer>
 );
 
