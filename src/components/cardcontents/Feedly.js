@@ -63,6 +63,8 @@ const FeedlyLogo = styled.img`
     margin-right: 16px;
     margin-top: 16px;
     align-self: flex-end;
+    transition: opacity .25s;
+    opacity: 0;
 `;
 
 class Feedly extends Component {
@@ -103,18 +105,22 @@ class Feedly extends Component {
                     </FeedlyText>
                     <div style={{flexGrow: 1}}/>
                     {this.props.card.data.logoUrl && (
-                        <FeedlyLogo crossOrigin="anonymous" src={this.props.card.data.logoUrl} onLoad={(event: Event & { target: HTMLImageElement } ) => {
+                        <FeedlyLogo alt={this.props.card.name} crossOrigin="anonymous" src={this.props.card.data.logoUrl} onLoad={(event: Event & { target: HTMLImageElement } ) => {
                             const { target }: { target: HTMLImageElement } = event;
                             if(target.src.startsWith('data:')) {
                                 return;
                             }
-                            const key = 'processedLogos_' + hasha(target.src).substring(10);
-                            let url = localStorage.getItem(key);
-                            if(!url) {
-                            const url = removeBackground(event.target);
-                                localStorage.setItem(key, url);
-                            }
-                            target.src = url;
+                            
+                            window.requestIdleCallback(() => {
+                                const key = 'processedLogos_' + hasha(target.src).substring(10);
+                                let url = localStorage.getItem(key);
+                                if(!url) {
+                                    url = removeBackground(target);
+                                    localStorage.setItem(key, url);
+                                }
+                                target.src = url;
+                                target.style.opacity = '1';
+                            });
                         }}/>
                     )}
                 </FeedlyHolder>

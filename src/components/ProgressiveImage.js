@@ -21,7 +21,8 @@ const ImageContainer = styled.div`
     background-size: cover;
     background-image: ${props => props.backgroundImage ? props.backgroundImage : 'none'};
     background-blend-mode: ${props => props.blendWith ? 'multiply' : 'none'};
-    background-color: ${props => props.blendWith ? props.blendWith : 'none'};
+    background-color: ${props => props.blendWith ? props.blendWith : '#EEE'};
+    transition: background-color .25s;
     transform: ${props => props.isPlaceholder && props.active && !props.fullActive ? 'scale(1.1)' : 'scale(1)'};
     
     img {
