@@ -2,12 +2,17 @@ import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import { FeedState, reducer as feed } from './redux/feed';
 import { reducer as token, TokenState } from './redux/token';
 import { apiMiddleware } from 'redux-api-middleware';
-import { autoRehydrate, persistStore } from 'redux-persist';
+import { autoRehydrate, persistStore as persistStoreWithCallback } from 'redux-persist';
 import SyncStorage from './services/SyncStorage';
 import localForage from 'localforage';
 import isChromeExtension from './constants/isChromeExtension';
 import logger from 'redux-logger';
 import colors, { ColorsState } from './redux/colors';
+import promisify from 'es6-promisify';
+import logos from './redux/logos';
+import thunk from 'redux-thunk';
+
+const persistStore = promisify(persistStoreWithCallback);
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -20,10 +25,11 @@ export type RootState = {
 const reducer = combineReducers({
     feed,
     token,
-    colors
+    colors,
+    logos
 });
-export default (cb) => {
-    let middlewares = [apiMiddleware];
+export default async () => {
+    let middlewares = [apiMiddleware, thunk];
     if(process.env.NODE_ENV !== 'production' && isChromeExtension) {
         // we only use logger middleware when running from the extension, because we have no other choice.
         // (redux devtools can't access other extensions)
@@ -35,12 +41,16 @@ export default (cb) => {
         autoRehydrate()
     ));
     
-    let storage = SyncStorage;
+    let userStorage = SyncStorage;
     if(!isChromeExtension) {
         // eslint-disable-next-line no-console
-        console.warn('createStore: Not going to use SyncStorage (not running as a chrome extension), falling back to localStorage');
-        storage = localForage;
+        console.warn('createStore: sync storage not available, falling back to localForage');
+        userStorage = localForage;
     }
     
-    persistStore(store, { storage }, () => cb(store));
+    // we persist to 2 separate storages, 1 for mission critical data (user settings etc), and one for caching
+    await persistStore(store, { userStorage, whitelist: ['token'] });
+    await persistStore(store, { localForage, blacklist: ['token'] });
+    
+    return store;
 };

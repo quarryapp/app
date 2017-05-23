@@ -10,20 +10,24 @@ import { connect } from 'react-redux';
 import { RootState } from '../../createStore';
 import { setColor } from '../../redux/colors';
 import removeBackground from '../../services/removeBackground';
-import hasha from 'hasha';
+import { setLogo } from '../../redux/logos';
 
 type FeedlyProps = {
     card: IFeedlyCard,
     color: string,
-    setColor: Function
+    logo: string,
+    setColor: Function,
+    setLogo: Function,
 };
 
-const mapStateToProps = ({colors}: RootState, ownProps: FeedlyProps): RootState => ({
-    color: colors[ownProps.card.data.visual && 'edgeCacheUrl' in ownProps.card.data.visual ? ownProps.card.data.visual.edgeCacheUrl : null]
+const mapStateToProps = ({ colors, logos }: RootState, ownProps: FeedlyProps): RootState => ({
+    color: colors[ownProps.card.data.visual && 'edgeCacheUrl' in ownProps.card.data.visual ? ownProps.card.data.visual.edgeCacheUrl : null],
+    logo: ownProps.card.data.logoUrl in logos ? logos[ownProps.card.data.logoUrl] : ownProps.card.data.logoUrl   
 });
 
 const mapDispatchToProps = (dispatch: Function) => ({
-    setColor: (url: string, color: string) => dispatch(setColor(url, color))
+    setColor: (url: string, color: string) => dispatch(setColor(url, color)),
+    setLogo: (logoUrl: string, dataUrl: string) => dispatch(setLogo(logoUrl, dataUrl))
 });
 
 const FeedlyContainer = styled.div`
@@ -105,19 +109,16 @@ class Feedly extends Component {
                     </FeedlyText>
                     <div style={{flexGrow: 1}}/>
                     {this.props.card.data.logoUrl && (
-                        <FeedlyLogo alt={this.props.card.name} crossOrigin="anonymous" src={this.props.card.data.logoUrl} onLoad={(event: Event & { target: HTMLImageElement } ) => {
+                        <FeedlyLogo alt={this.props.card.name} crossOrigin="anonymous" src={this.props.logo} onLoad={(event: Event & { target: HTMLImageElement } ) => {
                             const { target }: { target: HTMLImageElement } = event;
                             if(target.src.startsWith('data:')) {
+                                target.style.opacity = '1';
                                 return;
                             }
                             
                             window.requestIdleCallback(() => {
-                                const key = 'processedLogos_' + hasha(target.src).substring(10);
-                                let url = localStorage.getItem(key);
-                                if(!url) {
-                                    url = removeBackground(target);
-                                    localStorage.setItem(key, url);
-                                }
+                                const url = removeBackground(target);
+                                this.props.setLogo(target.src, url);
                                 target.src = url;
                                 target.style.opacity = '1';
                             });

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // @flow
 
 const TOLERANCE = 64;
@@ -55,7 +56,7 @@ export default (image: HTMLImageElement) => {
                         let diff = targetColor - destColor;
                         debug && console.log('diff', diff);
                         if(diff > 0) {
-                            diff = Math.round(175 + (diff / (255 * 4) * 80));
+                            diff = Math.round(215 + (diff / (255 * 4) * 40));
                             debug && console.log('ALPHA SET TO ', diff);
                             data[i + index] = diff; 
                             continue;
