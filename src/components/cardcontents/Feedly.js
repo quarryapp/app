@@ -63,7 +63,7 @@ const FeedlyText = styled.div`
 
 const FeedlyLogo = styled.img`
     max-width:100px;
-    max-height:35px;
+    max-height:25px;
     margin-right: 16px;
     margin-top: 16px;
     align-self: flex-end;
@@ -90,7 +90,7 @@ class Feedly extends Component {
     }
     
     render() {
-        const hasContent = 'content' in this.props.card.data;
+        const hasContent = !!this.props.card.data.content;
         return (
             <FeedlyContainer>
                 <ProgressiveImage
