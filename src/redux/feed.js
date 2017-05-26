@@ -4,6 +4,7 @@ import { CALL_API, ApiError } from 'redux-api-middleware';
 import { feedUrl } from '../constants/apiUrls';
 import { REHYDRATE } from 'redux-persist/constants';
 import { ICard } from '../entities/index';
+
 // state def
 
 export type FeedState = {
@@ -30,14 +31,27 @@ const defaultState: FeedState = {
     }
 };
 
+export type Action = FeedFailureAction | FeedRequestAction | FeedSuccessAction;
+
 // actions
-export const FEED_REQUEST = 'FEED_REQUEST';
-export const FEED_SUCCESS = 'FEED_SUCCESS';
-export const FEED_FAILURE = 'FEED_FAILURE';
+export type FeedFailureAction = {
+    type: 'FEED_FAILURE',
+    payload: ApiError
+};
+
+export type FeedRequestAction = {
+    type: 'FEED_REQUEST',
+    payload: null
+};
+
+export type FeedSuccessAction = {
+    type: 'FEED_SUCCESS',
+    payload: any
+};
 
 // reducer
 
-export const reducer = (state: FeedState = defaultState, action: Object) => {
+export const reducer = (state: FeedState = defaultState, action: Action) => {
     switch (action.type) {
         case REHYDRATE: {
             // we only allow rehydration of items key.
@@ -47,12 +61,13 @@ export const reducer = (state: FeedState = defaultState, action: Object) => {
                 items
             };
         }
-        case FEED_REQUEST:
+        case 'FEED_REQUEST':
             return {
                 ...state,
-                isLoading: true
+                error: action.error ? action.payload : null,
+                isLoading: action.error ? false : true
             };
-        case FEED_SUCCESS: {
+        case 'FEED_SUCCESS': {
             // backend returns a string for some reason...
             const page = parseInt(action.payload.page);
             return {
@@ -65,7 +80,7 @@ export const reducer = (state: FeedState = defaultState, action: Object) => {
                 isLoading: false
             };
         }
-        case FEED_FAILURE:
+        case 'FEED_FAILURE':
             return {
                 ...state,
                 error: action.payload,
@@ -83,9 +98,8 @@ export const getFeed = (token: string, page: number = 1) => ({
         endpoint: feedUrl(page),
         method: 'GET',
         headers: {
-            //todo: kind of annoying to have to add this manually in every dispatch...
             Authorization: `Bearer ${token}`
         },
-        types: [FEED_REQUEST, FEED_SUCCESS, FEED_FAILURE]
+        types: ['FEED_REQUEST', 'FEED_SUCCESS', 'FEED_FAILURE']
     }
 });

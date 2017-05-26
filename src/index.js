@@ -6,10 +6,21 @@ import createStore from './createStore';
 
 (async() => {
     const store = await createStore();
-    ReactDOM.render(
-        <Provider store={store}>
-            <App />
-        </Provider>,
-        document.getElementById('root')
-    );
+    const renderApp = (App) => {
+        ReactDOM.render(
+            <Provider store={store}>
+                <App />
+            </Provider>,
+            document.getElementById('root')
+        );
+    };
+
+    renderApp(App);
+    
+    if (module.hot) {
+        module.hot.accept('./components/App', () => {
+            var NextApp = require('./components/App').default;
+            renderApp(NextApp);
+        });
+    }
 })();

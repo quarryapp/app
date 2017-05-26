@@ -5,7 +5,7 @@ import type { ICard } from '../entities/index';
 import styled from 'styled-components';
 import getCardContentByType from '../services/getCardContentByType';
 
-const RowHeight = 25;
+const RowHeight = 20;
 const GridMargin = 0.5;
 
 const ColumnStartMap = {

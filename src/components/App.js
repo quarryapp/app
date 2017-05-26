@@ -1,17 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
 import NavBar from './NavBar';
 import Feed from './Feed';
-
-const AppContainer = styled.div`
-
-`;
+import Messages from './Messages';
 
 export default function App () {
     return (
-        <AppContainer>
+        <div>
             <NavBar/>
+            <Messages/>
             <Feed/>
-        </AppContainer>
+        </div>
     );
 }

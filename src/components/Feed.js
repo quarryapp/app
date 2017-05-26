@@ -11,6 +11,12 @@ import type { ICard } from '../entities';
 
 const INFINITE_SCROLL_OFFSET = 100;
 
+const FeedScrollContainer = styled.div`
+    position: relative;
+    height: calc(100vh - 4.8rem);
+    overflow: auto;
+`;
+
 const FeedContainer = styled.div`
     display: grid;
     grid-auto-flow: dense;
@@ -38,12 +44,10 @@ class Feed extends Component {
 
     componentDidMount() {
         this.props.getFeed(this.props.token);
-        window.addEventListener('scroll', this.onScroll);
         window.addEventListener('resize', this.onResize);
     }
     
     componentWillUnmount() {
-        window.removeEventListener('scroll', this.onScroll);
         window.removeEventListener('resize', this.onResize);
     }
     
@@ -64,39 +68,41 @@ class Feed extends Component {
     render() {
         const { docs } = this.props.feed.items;
         return (
-            <TransitionMotion
-                styles={docs.map((doc: ICard, index: number) => ({
-                    key: index,
-                    style: {
-                        translateY: spring(0),
-                        opacity: spring(1)
-                    },
-                    data: {
-                        doc
-                    }
-                }))}
-            willEnter={() => ({
-                translateY: 180,
-                opacity: 0
-            })}>
-                {styles => (
-                    <div ref={(feedContainer: HTMLElement) => {
-                        this.feedContainer = feedContainer;
-                        if(feedContainer) {
-                            this.feedContainerBounds = feedContainer.getBoundingClientRect();
+            <FeedScrollContainer onScroll={() => this.onScroll()}>
+                <TransitionMotion
+                    styles={docs.map((doc: ICard, index: number) => ({
+                        key: index,
+                        style: {
+                            translateY: spring(0),
+                            opacity: spring(1)
+                        },
+                        data: {
+                            doc
                         }
-                    }}>
-                        <FeedContainer>
-                            {styles.map((config) =>
-                                <Card key={config.key} card={config.data.doc} style={{
-                                    opacity: config.style.opacity,
-                                    transform: `translateY(${config.style.translateY}px)`
-                                }}/>
-                            )}
-                        </FeedContainer>
-                    </div>
-                )}
-            </TransitionMotion>
+                    }))}
+                willEnter={() => ({
+                    translateY: 180,
+                    opacity: 0
+                })}>
+                    {styles => (
+                        <div ref={(feedContainer: HTMLElement) => {
+                            this.feedContainer = feedContainer;
+                            if(feedContainer) {
+                                this.feedContainerBounds = feedContainer.getBoundingClientRect();
+                            }
+                        }}>
+                            <FeedContainer>
+                                {styles.map((config) =>
+                                    <Card key={config.key} card={config.data.doc} style={{
+                                        opacity: config.style.opacity,
+                                        transform: `translateY(${config.style.translateY}px)`
+                                    }}/>
+                                )}
+                            </FeedContainer>
+                        </div>
+                    )}
+                </TransitionMotion>
+            </FeedScrollContainer>
         );
     }
 }

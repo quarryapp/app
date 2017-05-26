@@ -26,3 +26,12 @@ export type ICard = {
     timestamp: number, // publication date
     title: string, // title
 }
+
+export type MessageIcon = 'cloud_off' | 'check' | 'warning' | null;
+export type MessageType = 'error' | 'message';
+export type IMessage = {
+    type: MessageType,
+    icon: MessageIcon,
+    text: string,
+    id: number
+};

@@ -11,6 +11,7 @@ import colors, { ColorsState } from './redux/colors';
 import promisify from 'es6-promisify';
 import logos from './redux/logos';
 import thunk from 'redux-thunk';
+import messages, { MessagesState } from './redux/messages';
 
 const persistStore = promisify(persistStoreWithCallback);
 
@@ -19,14 +20,16 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 export type RootState = {
     feed: FeedState,
     token: TokenState,
-    colors: ColorsState
+    colors: ColorsState,
+    messages: MessagesState
 };
 
 const reducer = combineReducers({
     feed,
     token,
     colors,
-    logos
+    logos,
+    messages
 });
 export default async () => {
     let middlewares = [apiMiddleware, thunk];
@@ -49,8 +52,8 @@ export default async () => {
     }
     
     // we persist to 2 separate storages, 1 for mission critical data (user settings etc), and one for caching
-    await persistStore(store, { userStorage, whitelist: ['token'] });
-    await persistStore(store, { localForage, blacklist: ['token'] });
+    await persistStore(store, { userStorage, whitelist: ['token'], blacklist: ['messages'] });
+    await persistStore(store, { localForage, blacklist: ['token', 'messages'] });
     
     return store;
 };
