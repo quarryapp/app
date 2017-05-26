@@ -33,5 +33,6 @@ export type IMessage = {
     type: MessageType,
     icon: MessageIcon,
     text: string,
-    id: number
+    id: number,
+    expiration: number
 };

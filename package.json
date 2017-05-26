@@ -18,7 +18,6 @@
         "redux-logger": "^3.0.1",
         "redux-persist": "^4.7.1",
         "redux-saga": "^0.15.3",
-        "redux-thunk": "^2.2.0",
         "striptags": "^3.0.1",
         "styled-components": "^1.4.5"
     },

@@ -41,7 +41,8 @@ export type FeedFailureAction = {
 
 export type FeedRequestAction = {
     type: 'FEED_REQUEST',
-    payload: null
+    payload: null,
+    error?: boolean
 };
 
 export type FeedSuccessAction = {
