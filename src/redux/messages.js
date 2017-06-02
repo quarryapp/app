@@ -36,7 +36,7 @@ export default (state: MessagesState = defaultState, action: Action): MessagesSt
 };
 
 // action creators
-export const addMessage = (text: string, type: MessageType = 'message', icon: MessageIcon = null, id: number = Math.round(Math.random() * 100000), expiration: number = 2500): AddMessageAction => ({
+export const addMessage = (text: string, type: MessageType = 'message', icon: MessageIcon = null, id: number = Math.round(Math.random() * 100000), expiration: number = 5000): AddMessageAction => ({
     type: 'ADD_MESSAGE',
     payload: { text, type, icon, id, expiration }
 });

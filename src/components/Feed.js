@@ -58,6 +58,7 @@ class Feed extends Component {
     }
     
     onScroll = () => {
+        console.log('onScroll')
         if ((window.scrollY + window.innerHeight) > (this.feedContainerBounds.bottom - INFINITE_SCROLL_OFFSET) 
             && this.props.feed.items.pages >= this.props.feed.items.page 
             && !this.props.feed.isLoading) {
@@ -68,7 +69,7 @@ class Feed extends Component {
     render() {
         const { docs } = this.props.feed.items;
         return (
-            <FeedScrollContainer onScroll={() => this.onScroll()}>
+            <FeedScrollContainer ref={(ref: HTMLElement) => console.log(ref)}>
                 <TransitionMotion
                     styles={docs.map((doc: ICard, index: number) => ({
                         key: index,

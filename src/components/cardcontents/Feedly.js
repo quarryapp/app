@@ -53,7 +53,8 @@ const FeedlyText = styled.div`
         font-size:${props => props.size === 'small' ? 2.2 : 2.8}rem;
         font-weight:bold;
         line-height: ${props => props.size === 'small' ? 2.4 : 3}rem;
-        font-family: Circular, sans-serif;
+        font-family: Cabin, sans-serif;
+        font-weight:700;
         -webkit-box-orient: vertical;
         display: -webkit-box;
         -webkit-line-clamp: 3;
