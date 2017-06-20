@@ -26,16 +26,6 @@ const GitHubText = styled.div`
     position:relative;
     color: black;
     
-    h1 {
-        font-size:${props => props.size === 'small' ? '1.8' : '2'}rem;
-        font-weight: bold;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-        margin-bottom:.5em;
-        line-height: ${props => props.size === 'small' ? '2' : '2.2'}rem;
-    }
-    
     p {
         margin-top:.5em;
         font-size:${props => props.size === 'small' ? '1.4' : '1.6'}rem;
@@ -66,8 +56,8 @@ const GitHubRepoInfo = styled.div`
 
 const GitHub = (props: GitHubProps) => (
     <GitHubHolder>
+        <Source logoElement={gitHubLogo} description={props.card.title} color="rgba(0,0,0,.75)"/>
         <GitHubText size={props.card.size}>
-            <h1>{props.card.title}</h1>
             <p>{props.card.data.description}</p>
         </GitHubText>
         <GitHubRepoInfo size={props.card.size}>
@@ -88,7 +78,6 @@ const GitHub = (props: GitHubProps) => (
                 </div>
             )}
         </GitHubRepoInfo>
-        <Source logoElement={gitHubLogo} description={`#${props.card.ranking} Trending on GitHub`} color="rgba(0,0,0,.75)"/>
     </GitHubHolder>
 );
 

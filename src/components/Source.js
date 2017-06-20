@@ -32,33 +32,32 @@ const SourceContainer = styled.div`
     height: 4rem;
     background-color:${props => props.color};
     display: flex;
+    padding:0 1rem;
 `;
 
 const SourceText = styled.span`
     color: white;
-    height: 4rem;
     font-size: 1.6rem;
     line-height: 4rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     flex-grow: 1;
-    margin-right: 1.6rem;
 `;
 
 const SourceIcon = styled.span`
     display: inline-block;
-    margin: 0.8rem;
     display: flex;
     align-items: center;
+    margin-left: 1rem;
 `;
 
 const Source = (props: SourceProps) => (
     <SourceContainer color={props.color} style={props.style}>
+        <SourceText>{props.description}</SourceText>
         <SourceIcon>
             {props.logoElement}
         </SourceIcon>
-        <SourceText>{props.description}</SourceText>
     </SourceContainer>
 );
 

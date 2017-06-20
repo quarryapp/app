@@ -8,6 +8,7 @@
         "localforage": "^1.5.0",
         "moment": "^2.18.1",
         "node-vibrant": "^3.0.0-alpha.2",
+        "raven-js": "^3.16.0",
         "react": "^15.5.4",
         "react-dom": "^15.5.4",
         "react-icons": "^2.2.5",
@@ -19,7 +20,8 @@
         "redux-persist": "^4.7.1",
         "redux-saga": "^0.15.3",
         "striptags": "^3.0.1",
-        "styled-components": "^1.4.5"
+        "styled-components": "^1.4.5",
+        "tinycolor2": "^1.4.1"
     },
     "devDependencies": {
         "ansi-html": "0.0.5",

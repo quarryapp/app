@@ -25,9 +25,9 @@ const DribbbleHolder = styled.div`
 const Dribbble = (props: DribbbleProps) => (
     <DribbbleContainer>
         <DribbbleHolder>
+            <Source logoElement={dribbbleLogo} style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 3 }}
+                    color="rgba(239, 18, 98, 0.75)" description={props.card.title}/>
             <ProgressiveImage src={props.card.data.images.hidpi ? props.card.data.images.hidpi : props.card.data.images.normal} placeholder={props.card.data.images.teaser} fallbackSeed={props.card._id}/>
-            <Source logoElement={dribbbleLogo} style={{ position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 3 }}
-                    color="rgba(239, 18, 98, 0.75)" description={`#${props.card.ranking} Trending on Dribbble`}/>
         </DribbbleHolder>
     </DribbbleContainer>
 );
