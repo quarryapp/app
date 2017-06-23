@@ -15,6 +15,7 @@ import type { ColorsState } from './redux/colors';
 import colors from './redux/colors';
 import promisify from 'es6-promisify';
 import logos from './redux/logos';
+import type { LogosState } from './redux/logos';
 import type { MessagesState } from './redux/messages';
 import messages from './redux/messages';
 import type { SagaMiddleware } from 'redux-saga';
@@ -29,7 +30,8 @@ export type RootState = {
     feed: FeedState,
     token: TokenState,
     colors: ColorsState,
-    messages: MessagesState
+    messages: MessagesState,
+    logos: LogosState
 };
 
 const reducer = combineReducers({

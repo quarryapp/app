@@ -21,6 +21,10 @@
         "redux-saga": "^0.15.3",
         "striptags": "^3.0.1",
         "styled-components": "^1.4.5",
+        "stylelint": "^7.11.1",
+        "stylelint-config-standard": "^16.0.0",
+        "stylelint-processor-styled-components": "^0.1.2",
+        "stylelint-webpack-plugin": "^0.7.0",
         "tinycolor2": "^1.4.1"
     },
     "devDependencies": {

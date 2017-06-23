@@ -7,7 +7,7 @@ import type { IFeedlyCard } from '../../entities/providers';
 import cleanHTML from '../../services/cleanHTML';
 import Vibrant from 'node-vibrant';
 import { connect } from 'react-redux';
-import { RootState } from '../../createStore';
+import type { RootState } from '../../createStore';
 import { setColor } from '../../redux/colors';
 import removeBackground from '../../services/removeBackground';
 import { setLogo } from '../../redux/logos';
@@ -17,17 +17,17 @@ import Raven from 'raven-js';
 
 type FeedlyProps = {
     card: IFeedlyCard,
-    color: string,
-    logoColor: string,
-    logo: string,
+    color: ?string,
+    logoColor: ?string,
+    logo: ?string,
     setColor: Function,
     setLogo: Function,
 };
 
-const mapStateToProps = ({ colors, logos }: RootState, ownProps: FeedlyProps): RootState => ({
-    color: colors[ownProps.card.data.visual && 'edgeCacheUrl' in ownProps.card.data.visual ? ownProps.card.data.visual.edgeCacheUrl : null],
-    logoColor: colors[ownProps.card.data.logoUrl ? ownProps.card.data.logoUrl : null],
-    logo: ownProps.card.data.logoUrl in logos ? logos[ownProps.card.data.logoUrl] : ownProps.card.data.logoUrl
+const mapStateToProps = ({ colors, logos }: RootState, { card: { data } }: FeedlyProps) => ({
+    color: data.visual && 'edgeCacheUrl' in data.visual && data.visual.edgeCacheUrl in colors ? colors[data.visual.edgeCacheUrl] : null,
+    logoColor: data.logoUrl in colors ? colors[data.logoUrl] : null,
+    logo: data.logoUrl in logos ? logos[data.logoUrl] : data.logoUrl
 });
 
 const mapDispatchToProps = (dispatch: Function) => ({
@@ -54,11 +54,11 @@ const FeedlyText = styled.div`
     text-align: ${props => props.direction === 'rtl' ? 'right' : 'left'};
     direction: ${props => props.direction};
     z-index: 1;
-    
+
     h1 {
-        font-size:${props => props.size === 'small' ? 2.2 : 2.8}rem;
+        font-size:${props => props.size === 'small' ? 2.8 : 3.2}rem;
         font-weight:bold;
-        line-height: ${props => props.size === 'small' ? 2.4 : 3}rem;
+        line-height: ${props => props.size === 'small' ? 3 : 3.6}rem;
         font-family: Cabin, sans-serif;
         font-weight:700;
         -webkit-box-orient: vertical;
@@ -96,7 +96,7 @@ class Feedly extends Component {
     }
     
     onLogoLoad(event: Event & { target: HTMLImageElement }) {
-        const { target }: { target: HTMLImageElement } = event;
+        const { target } = event;
         if (target.src.startsWith('data:')) {
             target.style.opacity = '1';
             return;
@@ -120,7 +120,7 @@ class Feedly extends Component {
                 }
             }
 
-            // remove and add outlines to color
+            // remove and add outlines to logo
             const url = removeBackground(target);
             this.props.setLogo(target.src, url);
             target.src = url;
@@ -139,7 +139,7 @@ class Feedly extends Component {
                         onFullLoad={(...args) => this.onVisualLoad(...args)}
                         crossOrigin="anonymous"
                         background={true}
-                        blendWith={this.props.color}/>
+                        blendWith={this.props.color ? this.props.color : this.props.logoColor}/>
 
                     <Source logoElement={(
                         <div>

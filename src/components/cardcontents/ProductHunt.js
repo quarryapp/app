@@ -5,47 +5,48 @@ import type { ICard } from '../../entities/index';
 import Source from '../Source';
 import styled from 'styled-components';
 import ProgressiveImage from '../ProgressiveImage';
+import Raven from 'raven-js';
+import Vibrant from 'node-vibrant';
+import { setColor } from '../../redux/colors';
+import type { RootState } from '../../createStore';
+import { connect } from 'react-redux';
 
 type ProductHuntProps = {
-    card: ICard
+    card: ICard,
+    color: string,
+    setColor: Function
 };
 
-const ProductHuntContainer = styled.div`
-    height:100%;
-    
-    &:before {
-        content:"";
-        display:block;
-        background-color: rgba(0, 0, 0, 0.50);
-		position: absolute;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;
-        z-index: 2;
-    }
-`;
+const mapDispatchToProps = (dispatch: Function) => ({
+    setColor: (url: string, color: string) => dispatch(setColor(url, color)),
+});
+
+const mapStateToProps = ({ colors, logos }: RootState, { card: { data } }: ProductHuntProps) => ({
+    color: data.image in colors ? colors[data.image] : null,
+});
 
 const ProductHuntHolder = styled.div`
     display:flex;
     flex-direction:column;
-    height:100%;
-    position:relative;
+    top:0;
+    left:0
+    right:0;
+    bottom:0;
+    position:absolute;
     z-index:4;
 `;
 
 const ProductHuntText = styled.div`
     padding:1.6rem;
-    flex-grow:1;
     position:relative;
     color: white;
     
     h1 {
-        font-size:${props => props.size === 'small' ? '1.8' : '2'}rem;
+        font-size:${props => props.size === 'small' ? '2.2' : '2.4'}rem;
         font-weight:bold;
         -webkit-line-clamp: 2;
         margin-bottom:.5em;
-        line-height: ${props => props.size === 'small' ? '2' : '2.2'}rem;
+        line-height: ${props => props.size === 'small' ? '2.2' : '2.4'}rem;
     }
     
     p {
@@ -63,22 +64,52 @@ const ProductHuntText = styled.div`
 `;
 
 const ProductHunt = (props: ProductHuntProps) => (
-    <ProductHuntContainer>
-        <ProgressiveImage src={props.card.data.image}
-                          placeholder={props.card.data.image}
-                          fallbackSeed={props.card._id}/>
+    <div>
+        <ProgressiveImage
+            src={props.card.data.image}
+            placeholder={props.card.data.thumb}
+            fallbackSeed={props.card._id}
+            onFullLoad={async (element: HTMLImageElement) => {
+                if (!props.color) {
+                    const vibrant = Vibrant.from(element);
+                    try {
+                        const palette = await vibrant.getPalette();
+                        const swatch = palette.DarkVibrant || palette.Muted || null;
+                        if (swatch) {
+                            props.setColor(element.src, swatch.getHex());
+                        }
+                    } catch (ex) {
+                        console.error(ex); //eslint-disable-line no-console
+                        Raven.captureException(ex);
+                    }
+                }
+            }}
+            crossOrigin="anonymous"
+            background={true}
+            blendWith={props.color}/>
         <ProductHuntHolder>
+            <Source logoElement={productHuntLogo} description={props.card.title} color="#da552f" />
+            <div style={{flexGrow: 1}}/>
             <ProductHuntText size={props.card.size}>
-                <h1>{props.card.title}</h1>
+                <h1>{caret} {props.card.score}</h1>
                 <p>{props.card.data.tagline}</p>
             </ProductHuntText>
-            <Source logoElement={productHuntLogo} description={`#${props.card.ranking} on ProductHunt`} color="rgba(217, 129, 96, 0.75)" />
         </ProductHuntHolder>
-    </ProductHuntContainer>
+    </div>
+);
+
+const caret = (
+    <svg width="12" height="12" viewBox="0 0 14 14">
+        <g id="Canvas" transform="translate(-4828 -4785)">
+            <g id="Polygon 2">
+                <path id="path0_fill" d="M 8 0L 14.9282 13.5L 1.0718 13.5L 8 0Z" transform="translate(4827 4785)" fill="#FFFFFF"/>
+            </g>
+        </g>
+    </svg>
 );
 
 const productHuntLogo = (
-    <svg width="16" height="16" viewBox="0 0 12 12">
+    <svg width="18" height="18" viewBox="0 0 12 12">
         <title>producthunt</title>
         <desc>Created using Figma</desc>
         <g id="Canvas" transform="translate(-1039 -723)">
@@ -94,4 +125,4 @@ const productHuntLogo = (
     </svg>
 );
 
-export default ProductHunt;
+export default connect(mapStateToProps, mapDispatchToProps)(ProductHunt);
