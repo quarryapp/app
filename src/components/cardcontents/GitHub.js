@@ -56,7 +56,7 @@ const GitHubRepoInfo = styled.div`
 
 const GitHub = (props: GitHubProps) => (
     <GitHubHolder>
-        <Source logoElement={gitHubLogo} description={props.card.title} color="rgba(0,0,0,.75)"/>
+        <Source logoElement={gitHubLogo} description={props.card.title} color="#24292E"/>
         <GitHubText size={props.card.size}>
             <p>{props.card.data.description}</p>
         </GitHubText>

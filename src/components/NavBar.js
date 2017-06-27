@@ -4,19 +4,19 @@ import React from 'react';
 import styled from 'styled-components';
 
 const NavBarContainer = styled.nav`
-    display:flex;
-    height:4.8rem;
-    flex-direction:row;
-    justify-content:center;
-    align-items:center;
+    display: flex;
+    height: 5.6rem;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     
     h1 {
         color: rgba(0, 0, 0, 0.87);
         letter-spacing: 3.2px;
-        font-family: "Space Mono", monospace;
-        font-weight:bold;
-        font-size:2.4rem;
-        margin-left:1.5rem;
+        font-family: "Cabin", serif;
+        font-weight: 700;
+        font-size: 2.4rem;
+        margin-left: 1.5rem;
     }
 `;
 
