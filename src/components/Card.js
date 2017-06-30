@@ -4,6 +4,7 @@ import React from 'react';
 import type { ICard } from '../entities/index';
 import styled from 'styled-components';
 import getCardContentByType from '../services/getCardContentByType';
+import breakpoints from '../constants/breakpoints';
 
 const RowHeight = 20;
 const GridMargin = 0.5;
@@ -22,18 +23,15 @@ const RowStartMap = {
 
 const SizeMap = {
     'small': `
-        height: ${RowHeight}vh;
-        min-width:20rem;
+        height: ${RowHeight}rem;
         min-height:180px;
     `,
     'medium': `
-        height: ${RowHeight}vh;
-        min-width:40rem;
+        height: ${RowHeight}rem;
         min-height:180px;
     `,
     'large': `
-        height: calc(${RowHeight * 2}vh + ${GridMargin * 2}rem);
-        min-width:40rem;
+        height: calc(${RowHeight * 2}rem + ${GridMargin * 2}rem);
         min-height:370px;
     `
 };
@@ -46,6 +44,10 @@ const CardContainer = styled.div`
     grid-row-start: ${props => RowStartMap[props.size]};
     margin:${GridMargin}rem;
     background-color:#EEE;
+    
+    @media (max-width: ${breakpoints.S}px) {
+        grid-column-start: span 2 !important;
+    }
 `;
 
 type CardProps = {

@@ -8,18 +8,35 @@ import { getFeed } from '../redux/feed';
 import Card from './Card';
 import { spring, TransitionMotion } from 'react-motion';
 import type { ICard } from '../entities';
+import breakpoints from '../constants/breakpoints';
 
 const INFINITE_SCROLL_OFFSET = 100;
 
 const FeedContainer = styled.div`
     display: grid;
     grid-auto-flow: dense;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
     margin:.5rem;
     position: relative;
     height: calc(100vh - 4.8rem);
     overflow: auto;
+    
+    @media(min-width: ${breakpoints.M}px) and (max-width:${breakpoints.L - 1}px) {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    
+    @media(min-width: ${breakpoints.L}px) and (max-width: ${breakpoints.XL - 1}px) {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+    
+    @media(min-width: ${breakpoints.XL}px) and (max-width: ${breakpoints.XXL -1}px) {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+    
+    @media(min-width: ${breakpoints.XXL}px) {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
 `;
 
 type FeedProps = {

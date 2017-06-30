@@ -10,6 +10,7 @@ body {
 
 html {
     font-size:10px !important;
+    overflow: hidden;
 }
 
 * {
