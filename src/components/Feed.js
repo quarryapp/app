@@ -9,6 +9,8 @@ import Card from './Card';
 import { spring, TransitionMotion } from 'react-motion';
 import type { ICard } from '../entities';
 import breakpoints from '../constants/breakpoints';
+import CloudOffIcon from 'react-icons/lib/md/cloud-off';
+import Button from './Button';
 
 const INFINITE_SCROLL_OFFSET = 100;
 
@@ -38,6 +40,34 @@ const FeedContainer = styled.div`
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
     }
 `;
+
+const FeedError = styled.div`
+    height: 100%;
+    width: 100%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
+    h1 {
+        font-size: 2.2rem;
+        margin: 0.8rem 0;
+        margin-top: 2rem;
+    }
+    
+    p {
+        font-size: 1.8rem;
+        color: rgba(0, 0, 0, 0.50);
+        margin:0.8rem 0;
+        margin-bottom: 2rem;
+    }
+`;
+
+const reloadIcon = (
+    <svg width="16" height="16" viewBox="0 0 16 16" style={{position: 'relative', top: 2}}>
+        <path fill="#000" id="path0_fill" d="M 13.64 2.35C 12.19 0.9 10.2 0 7.99 0C 3.57 0 2.28882e-07 3.58 2.28882e-07 8C 2.28882e-07 12.42 3.57 16 7.99 16C 11.72 16 14.83 13.45 15.72 10L 13.64 10C 12.82 12.33 10.6 14 7.99 14C 4.68 14 1.99 11.31 1.99 8C 1.99 4.69 4.68 2 7.99 2C 9.65 2 11.13 2.69 12.21 3.78L 8.99 7L 15.99 7L 15.99 0L 13.64 2.35Z"/>
+    </svg>
+);
 
 type FeedProps = {
     feed: FeedState,
@@ -90,41 +120,54 @@ class Feed extends Component {
     }
 
     render() {
-        const { docs } = this.props.feed.items;
+        const { items: { docs }, error } = this.props.feed;
         return (
-            <div>
-                <TransitionMotion
-                    styles={docs.map((doc: ICard, index: number) => ({
-                        key: index,
-                        style: {
-                            translateY: spring(0),
-                            opacity: spring(1)
-                        },
-                        data: {
-                            doc
-                        }
-                    }))}
-                willEnter={() => ({
-                    translateY: 180,
-                    opacity: 0
-                })}>
-                    {styles => (
-                        <FeedContainer innerRef={(feedContainer: HTMLElement) => {
-                            this.feedContainer = feedContainer;
-                            if(feedContainer) {
-                                this.feedContainerBounds = feedContainer.getBoundingClientRect();
-                                feedContainer.addEventListener('scroll', this.onScroll);
+            <div style={{height: '100%'}}>
+                {error && docs.length === 0 && (
+                    <FeedError>
+                        <CloudOffIcon width="80px" height="80px"/>
+                        <h1>Unable to connect to Quarry's servers</h1>
+                        <p>Check your internet connection</p>
+                        <Button primary icon={reloadIcon} onClick={() => this.props.getFeed(this.props.token)}>
+                            Try again
+                        </Button>
+                    </FeedError>
+                )}
+
+                {!error && docs.length > 0 && (
+                    <TransitionMotion
+                        styles={docs.map((doc: ICard, index: number) => ({
+                            key: index,
+                            style: {
+                                translateY: spring(0),
+                                opacity: spring(1)
+                            },
+                            data: {
+                                doc
                             }
-                        }}>
-                            {styles.map((config) =>
-                                <Card key={config.key} card={config.data.doc} style={{
-                                    opacity: config.style.opacity,
-                                    transform: `translateY(${config.style.translateY}px)`
-                                }}/>
-                            )}
-                        </FeedContainer>
-                    )}
-                </TransitionMotion>
+                        }))}
+                        willEnter={() => ({
+                            translateY: 180,
+                            opacity: 0
+                        })}>
+                        {styles => (
+                            <FeedContainer innerRef={(feedContainer: HTMLElement) => {
+                                this.feedContainer = feedContainer;
+                                if(feedContainer) {
+                                    this.feedContainerBounds = feedContainer.getBoundingClientRect();
+                                    feedContainer.addEventListener('scroll', this.onScroll);
+                                }
+                            }}>
+                                {styles.map((config) =>
+                                    <Card key={config.key} card={config.data.doc} style={{
+                                        opacity: config.style.opacity,
+                                        transform: `translateY(${config.style.translateY}px)`
+                                    }}/>
+                                )}
+                            </FeedContainer>
+                        )}
+                    </TransitionMotion>
+                )}
             </div>
         );
     }

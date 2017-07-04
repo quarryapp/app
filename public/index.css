@@ -13,6 +13,10 @@ html {
     overflow: hidden;
 }
 
+html, body, #root, #root > div {
+    height: 100%;
+}
+
 * {
     box-sizing:border-box;
 }
