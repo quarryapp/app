@@ -52,16 +52,17 @@ const GitHubText = styled.div`
 const GitHub = (props: GitHubProps) => (
     <GitHubHolder>
         <Source logoElement={gitHubLogo} description={props.card.title} color="#24292E"/>
+        <div style={{flexGrow: 1}}/>
         <GitHubText size={props.card.size}>
             <h1>
-                {starIcon}
-                {props.card.score}
                 {props.card.data.language && (
                     [
                         languageIcon,
                         <span key="2">{props.card.data.language}</span>
                     ]
                 )}
+                {starIcon}
+                {props.card.score}
             </h1>
             <p>{props.card.data.description}</p>
         </GitHubText>

@@ -32,7 +32,7 @@ const FeedContainer = styled.div`
         grid-template-columns: 1fr 1fr 1fr 1fr;
     }
     
-    @media(min-width: ${breakpoints.XL}px) and (max-width: ${breakpoints.XXL -1}px) {
+    @media(min-width: ${breakpoints.XL}px) and (max-width: ${breakpoints.XXL - 1 }px) {
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     }
     
@@ -64,8 +64,9 @@ const FeedError = styled.div`
 `;
 
 const reloadIcon = (
-    <svg width="16" height="16" viewBox="0 0 16 16" style={{position: 'relative', top: 2}}>
-        <path fill="#000" id="path0_fill" d="M 13.64 2.35C 12.19 0.9 10.2 0 7.99 0C 3.57 0 2.28882e-07 3.58 2.28882e-07 8C 2.28882e-07 12.42 3.57 16 7.99 16C 11.72 16 14.83 13.45 15.72 10L 13.64 10C 12.82 12.33 10.6 14 7.99 14C 4.68 14 1.99 11.31 1.99 8C 1.99 4.69 4.68 2 7.99 2C 9.65 2 11.13 2.69 12.21 3.78L 8.99 7L 15.99 7L 15.99 0L 13.64 2.35Z"/>
+    <svg width="16" height="16" viewBox="0 0 16 16" style={{ position: 'relative', top: 2 }}>
+        <path fill="#000" id="path0_fill"
+              d="M 13.64 2.35C 12.19 0.9 10.2 0 7.99 0C 3.57 0 2.28882e-07 3.58 2.28882e-07 8C 2.28882e-07 12.42 3.57 16 7.99 16C 11.72 16 14.83 13.45 15.72 10L 13.64 10C 12.82 12.33 10.6 14 7.99 14C 4.68 14 1.99 11.31 1.99 8C 1.99 4.69 4.68 2 7.99 2C 9.65 2 11.13 2.69 12.21 3.78L 8.99 7L 15.99 7L 15.99 0L 13.64 2.35Z"/>
     </svg>
 );
 
@@ -90,24 +91,24 @@ class Feed extends Component {
         this.props.getFeed(this.props.token);
         window.addEventListener('resize', this.onResize);
     }
-    
+
     componentWillUnmount() {
         window.removeEventListener('resize', this.onResize);
-        if(this.feedContainer) {
+        if (this.feedContainer) {
             this.feedContainer.removeEventListener('scroll', this.onScroll);
         }
     }
-    
+
     onResize = () => {
-        if(this.feedContainerBounds) {
+        if (this.feedContainerBounds) {
             this.feedContainerBounds = this.feedContainer.getBoundingClientRect();
         }
     }
-    
+
     debounce: ?number = null;
-    
+
     onScroll = () => {
-        if(this.debounce) {
+        if (this.debounce) {
             clearTimeout(this.debounce);
         }
         this.debounce = setTimeout(() => {
@@ -122,7 +123,7 @@ class Feed extends Component {
     render() {
         const { items: { docs }, error } = this.props.feed;
         return (
-            <div style={{height: '100%'}}>
+            <div style={{ height: '100%' }}>
                 {error && docs.length === 0 && (
                     <FeedError>
                         <CloudOffIcon width="80px" height="80px"/>
@@ -153,7 +154,7 @@ class Feed extends Component {
                         {styles => (
                             <FeedContainer innerRef={(feedContainer: HTMLElement) => {
                                 this.feedContainer = feedContainer;
-                                if(feedContainer) {
+                                if (feedContainer) {
                                     this.feedContainerBounds = feedContainer.getBoundingClientRect();
                                     feedContainer.addEventListener('scroll', this.onScroll);
                                 }
