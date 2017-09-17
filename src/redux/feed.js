@@ -52,7 +52,7 @@ export type Action = FeedFailureAction | FeedRequestAction | FeedSuccessAction;
 
 // reducer
 
-export const reducer = (state: FeedState = defaultState, action: Action) => {
+export default (state: FeedState = defaultState, action: Action) => {
     switch (action.type) {
         case REHYDRATE: {
             // we only allow rehydration of items key.

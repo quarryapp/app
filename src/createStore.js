@@ -1,26 +1,22 @@
 // @flow
 
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
-import type { FeedState } from './redux/feed';
-import { reducer as feed } from './redux/feed';
-import type { TokenState } from './redux/token';
-import { reducer as token } from './redux/token';
-import { apiMiddleware } from 'redux-api-middleware';
-import { autoRehydrate, persistStore as persistStoreWithCallback } from 'redux-persist';
-import SyncStorage from './services/SyncStorage';
-import localForage from 'localforage';
-import isChromeExtension from './constants/isChromeExtension';
-import logger from 'redux-logger';
-import type { ColorsState } from './redux/colors';
-import colors from './redux/colors';
 import promisify from 'es6-promisify';
-import logos from './redux/logos';
-import type { LogosState } from './redux/logos';
-import type { MessagesState } from './redux/messages';
-import messages from './redux/messages';
+import localForage from 'localforage';
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
+import { apiMiddleware } from 'redux-api-middleware';
+import logger from 'redux-logger';
+import { autoRehydrate, persistStore as persistStoreWithCallback } from 'redux-persist';
 import type { SagaMiddleware } from 'redux-saga';
 import createSagaMiddleware from 'redux-saga';
+import isChromeExtension from './constants/isChromeExtension';
+import { default as colors, type ColorsState } from './redux/colors';
+import { default as feed, type FeedState } from './redux/feed';
+import { default as logos, type LogosState } from './redux/logos';
+import { default as messages, type MessagesState } from './redux/messages';
+import { default as onboarding, type OnboardingState } from './redux/onboarding';
+import { default as token, type TokenState } from './redux/token';
 import messagesSaga from './sagas/messages';
+import SyncStorage from './services/SyncStorage';
 
 const persistStore = promisify(persistStoreWithCallback);
 
@@ -31,7 +27,8 @@ export type RootState = {
     token: TokenState,
     colors: ColorsState,
     messages: MessagesState,
-    logos: LogosState
+    logos: LogosState,
+    onboarding: OnboardingState,
 };
 
 const reducer = combineReducers({
@@ -40,6 +37,7 @@ const reducer = combineReducers({
     colors,
     logos,
     messages,
+    onboarding
 });
 export default async () => {
     const saga: SagaMiddleware = createSagaMiddleware();

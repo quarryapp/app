@@ -14,7 +14,7 @@ type TokenStateAction = {
 export type Action = TokenStateAction;
 
 // reducer
-export const reducer = (state: TokenState = defaultState, action: Action) => {
+export default (state: TokenState = defaultState, action: Action) => {
     switch (action.type) {
         case 'SET_TOKEN':
             return action.payload;
