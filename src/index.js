@@ -5,9 +5,12 @@ import { Provider } from 'react-redux';
 import createStore from './createStore';
 import Raven from 'raven-js';
 import config from './constants/config';
+import regeneratorRuntime from 'regenerator-runtime/runtime'
 
 (async () => {
     Raven.config(config.publicDSN).install();
+
+    window._regeneratorRuntime = regeneratorRuntime
 
     window.onunhandledrejection = function (data) {
         Raven.captureException(data.reason);
