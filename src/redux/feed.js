@@ -56,7 +56,7 @@ export default (state: FeedState = defaultState, action: Action) => {
     switch (action.type) {
         case REHYDRATE: {
             // we only allow rehydration of items key.
-            const items = 'feed' in action.payload ? action.payload.feed.items : defaultState.items;
+            const items = action.payload && 'feed' in action.payload ? action.payload.feed.items : defaultState.items;
             return {
                 ...state,
                 items,
