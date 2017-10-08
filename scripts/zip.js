@@ -17,7 +17,7 @@ var archive = archiver('zip', {
 console.log('Creating a zip for chrome store publication...');
 
 // listen for all archive data to be written
-output.on('close', function() {
+output.on('close', function () {
     console.log(chalk.green('Zipping complete.'));
     console.log(`${chalk.yellow(archive.pointer())} total bytes.`);
     console.log();
@@ -25,7 +25,7 @@ output.on('close', function() {
 });
 
 // good practice to catch this error explicitly
-archive.on('error', function(err) {
+archive.on('error', function (err) {
     console.log('Zipping failed.');
     console.log(chalk.red(err));
 });

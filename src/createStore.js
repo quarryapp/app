@@ -63,8 +63,8 @@ export default async () => {
     saga.run(messagesSaga);
 
     // we persist to 2 separate storages, 1 for mission critical data (user settings etc), and one for caching
-    await persistStore(store, { userStorage, whitelist: ['token'], blacklist: ['messages'] });
-    await persistStore(store, { localForage, blacklist: ['token', 'messages'] });
+    await persistStore(store, { userStorage, whitelist: ['token'] });
+    await persistStore(store, { localForage, whitelist: ['logos', 'feed', 'colors'] });
 
     return store;
 };

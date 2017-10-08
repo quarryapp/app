@@ -57,7 +57,6 @@ const FeedlyText = styled.div`
 
     h1 {
         font-size:${props => props.size === 'small' ? 2.8 : 3.2}rem;
-        font-weight:bold;
         line-height: ${props => props.size === 'small' ? 3 : 3.6}rem;
         font-family: Cabin, sans-serif;
         font-weight:700;

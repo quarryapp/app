@@ -9,7 +9,7 @@ export type OnboardingState = {
 
 const defaultState: OnboardingState = {
     complete: false,
-    step: 1
+    step: 0,
 };
 
 // actions
@@ -17,37 +17,48 @@ type OnboardingCompleteAction = {
     type: 'ONBOARDING_COMPLETE',
 };
 
-type SetOnboardingStepAction = {
-    type: 'SET_ONBOARDING_STEP',
-    payload: number
+type IncreaseOnboardingStep = {
+    type: 'INCREASE_ONBOARDING_STEP',
 };
 
-export type Action = OnboardingCompleteAction | SetOnboardingStepAction;
+type DecreaseOnboardingStep = {
+    type: 'DECREASE_ONBOARDING_STEP',
+};
+
+export type Action = OnboardingCompleteAction | IncreaseOnboardingStep | DecreaseOnboardingStep;
 
 // reducer
 export default (state: OnboardingState = defaultState, action: Action) => {
     switch (action.type) {
-        case 'SET_ONBOARDING_STEP':
+        case 'INCREASE_ONBOARDING_STEP':
             return {
                 ...state,
-                step: action.payload
-            }
+                step: state.step + 1,
+            };
+        case 'DECREASE_ONBOARDING_STEP':
+            return {
+                ...state,
+                step: state.step - 1,
+            };
         case 'ONBOARDING_COMPLETE':
             return {
                 ...defaultState,
-                complete: true
-            }
+                complete: true,
+            };
         default:
             return state;
     }
 };
 
 // action creators
-export const setOnboardingStep = (step: number): SetOnboardingStepAction => ({
-    type: 'SET_ONBOARDING_STEP',
-    payload: step
+export const increaseOnboardingStep = (): IncreaseOnboardingStep => ({
+    type: 'INCREASE_ONBOARDING_STEP',
+});
+
+export const decreaseOnboardingStep = (): DecreaseOnboardingStep => ({
+    type: 'DECREASE_ONBOARDING_STEP',
 });
 
 export const onboardingComplete = (): OnboardingCompleteAction => ({
-    type: 'ONBOARDING_COMPLETE'
+    type: 'ONBOARDING_COMPLETE',
 });

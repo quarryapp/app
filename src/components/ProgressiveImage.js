@@ -11,7 +11,7 @@ import GeoPattern from 'geopattern';
 const canUseBackgrounds = document.createElement('detect').style.objectFit !== '';
 
 const ImageContainer = styled.div`
-    transition: opacity .5s, transform .5s;
+    transition: opacity .5s, transform .5s, background-color .25s;
     opacity:${props => (props.isPlaceholder && props.active && !props.fullActive) || (!props.isPlaceholder && props.active) ? 1 : 0};
     position:absolute;
     top:0;
@@ -24,7 +24,6 @@ const ImageContainer = styled.div`
     background-image: ${props => props.backgroundImage ? props.backgroundImage : 'none'};
     background-blend-mode: ${props => props.blendWith ? 'multiply' : 'unset'};
     background-color: ${props => props.blendWith ? props.blendWith : '#EEE'};
-    transition: background-color .25s;
     transform: ${props => props.isPlaceholder && props.active && !props.fullActive ? 'scale(1.1)' : 'scale(1)'};
     
     img {
