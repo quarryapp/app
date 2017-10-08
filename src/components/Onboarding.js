@@ -9,6 +9,7 @@ import SwipeableViews from 'react-swipeable-views';
 import styled from 'styled-components';
 import type { OnboardingState } from '../redux/onboarding';
 import { decreaseOnboardingStep, increaseOnboardingStep } from '../redux/onboarding';
+import SlideIndicator from './SlideIndicator';
 
 type OnboardingProps = OnboardingState & {
     increase: () => void,
@@ -24,15 +25,16 @@ const Overlay = styled.div`
     background: rgba(33, 33, 33, 0.38);
     z-index: 1;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 2rem;
 `;
 
 const Container = styled.div`
     display: flex;
     max-width: 100vw;
     align-items: center;
-    margin: 0 2rem;
     
     button {
         min-width: 56px;
@@ -42,10 +44,11 @@ const Container = styled.div`
 
 const Card = styled.div`
     background: #FFFFFF;
-    box-shadow: 0px 12px 12px rgba(0, 0, 0, 0.237602), 0px 0px 12px rgba(0, 0, 0, 0.12), 0px 6px 6px rgba(0, 0, 0, 0.24), 0px 0px 6px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 12px 12px rgba(0, 0, 0, 0.237602), 0 0 12px rgba(0, 0, 0, 0.12), 0 6px 6px rgba(0, 0, 0, 0.24), 0 0 6px rgba(0, 0, 0, 0.12);
     border-radius: 8px;
-    margin: 2.8rem;
+    margin: 2.4rem;
     overflow: hidden;
+    margin-bottom: 4.4rem;
     
     p { 
         line-height: 2.6rem;
@@ -68,7 +71,7 @@ const CardContent = styled.div`
     padding: 0 7rem 3rem;
     text-align: center;
     overflow-y: auto;
-    max-height: 100vh;
+    max-height: calc(100vh - 6rem);
 `;
 
 const IllustrationPlaceholder = styled.div`
@@ -91,7 +94,7 @@ const Onboarding = (props: OnboardingProps) => (
                             <IllustrationPlaceholder/>
                             <h1>The app that does all</h1>
                             <p>Get all your daily sources in one place</p>
-                            <Button color="accent" raised>
+                            <Button color="accent" raised onClick={() => props.increase()}>
                                 Get started
                             </Button>
                         </CardContent>
@@ -104,6 +107,7 @@ const Onboarding = (props: OnboardingProps) => (
                     <ArrowForward width={16} height={16}/>
                 </Button>
             </Container>
+            <SlideIndicator items={4} activeIndex={props.step} />
         </Overlay>
     ) : null
 );
